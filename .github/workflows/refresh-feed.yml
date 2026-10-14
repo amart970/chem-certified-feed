@@ -1,0 +1,55 @@
+name: Refresh Chem Certified feed
+
+# Keeps feed.xml in sync with the source podcast feed (which gains a new
+# episode every ~48h). YouTube polls the raw feed URL, so new episodes flow
+# to YouTube automatically. No secrets needed: the source feed is public.
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Rebuild feed.xml from source feed
+        run: |
+          python3 - <<'PYEOF'
+          import urllib.request, xml.dom.minidom
+
+          SOURCE = "https://muse.ai/podcasts/feed/1389949754182213/8f60f286-ffc7-469c-a19b-821e384a62dc"
+          OWNER = ('<itunes:owner><itunes:name>Angelica</itunes:name>'
+                   '<itunes:email>fashioncollage234@gmail.com</itunes:email></itunes:owner>'
+                   '<managingEditor>fashioncollage234@gmail.com (Angelica)</managingEditor>')
+
+          req = urllib.request.Request(SOURCE, headers={"User-Agent": "ChemCertifiedFeedProxy/1.0"})
+          try:
+              with urllib.request.urlopen(req, timeout=60) as resp:
+                  xml = resp.read().decode("utf-8")
+          except Exception as e:
+              print(f"source feed unreachable ({e}); keeping existing feed.xml")
+              raise SystemExit(0)
+
+          if "<itunes:owner>" not in xml:
+              xml = xml.replace("<channel>", "<channel>" + OWNER, 1)
+
+          xml.dom.minidom.parseString(xml)  # validate before writing
+
+          with open("feed.xml", "w", encoding="utf-8") as f:
+              f.write(xml)
+          print(f"wrote feed.xml ({len(xml)} bytes)")
+          PYEOF
+
+      - name: Commit if changed
+        run: |
+          git config user.name "chem-certified-bot"
+          git config user.email "chem-certified-bot@users.noreply.github.com"
+          git add feed.xml
+          git diff --cached --quiet || git commit -m "Refresh feed.xml from source feed"
+          git push
