@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+     xmlns:atom="http://www.w3.org/2005/Atom">
+<channel><itunes:owner><itunes:name>Angelica</itunes:name><itunes:email>fashioncollage234@gmail.com</itunes:email></itunes:owner><managingEditor>fashioncollage234@gmail.com (Angelica)</managingEditor>
+  <title>Chem Certified</title>
+  <description>Bite-size study episodes for the ASCP categorical Chemistry certification exam, with Maya and Jordan.
+
+AI Generated</description>
+  <language>en</language>
+  <itunes:explicit>false</itunes:explicit>
+  <atom:link href="https://muse.ai/podcasts/feed/1389949754182213/8f60f286-ffc7-469c-a19b-821e384a62dc" rel="self" type="application/rss+xml"/>
+  <itunes:image href="https://muse.ai/podcasts/media/1389949754182213/8f60f286-ffc7-469c-a19b-821e384a62dc/cover.png"/>
+  <image>
+    <url>https://muse.ai/podcasts/media/1389949754182213/8f60f286-ffc7-469c-a19b-821e384a62dc/cover.png</url>
+    <title>Chem Certified</title>
+    <link>https://muse.ai/podcasts/feed/1389949754182213/8f60f286-ffc7-469c-a19b-821e384a62dc</link>
+  </image>
+  <item>
+    <title>Start Here: Your Categorical Chemistry Exam Roadmap</title>
+    <description>Maya and Jordan map out the ASCP categorical Chemistry exam: the five content areas, how the questions work, and a realistic study strategy for working adults.
+
+AI Generated</description>
+    <enclosure url="https://muse.ai/podcasts/media/1389949754182213/8f60f286-ffc7-469c-a19b-821e384a62dc/ep-9f1e6744-6f8b-4e1f-8dfb-ec2bb83ac221.mp3" length="2598949" type="audio/mpeg"/>
+    <guid isPermaLink="false">ep-9f1e6744-6f8b-4e1f-8dfb-ec2bb83ac221</guid>
+    <pubDate>Mon, 12 Oct 2026 19:38:21 +0000</pubDate>
+    <itunes:duration>324</itunes:duration>
+  </item>
+</channel>
+</rss>
