@@ -21,7 +21,8 @@ jobs:
       - name: Rebuild feed.xml from source feed
         run: |
           python3 - <<'PYEOF'
-          import urllib.request, xml.dom.minidom
+          import urllib.request
+          from xml.dom import minidom
 
           SOURCE = "https://muse.ai/podcasts/feed/1389949754182213/8f60f286-ffc7-469c-a19b-821e384a62dc"
           OWNER = ('<itunes:owner><itunes:name>Angelica</itunes:name>'
@@ -31,19 +32,19 @@ jobs:
           req = urllib.request.Request(SOURCE, headers={"User-Agent": "ChemCertifiedFeedProxy/1.0"})
           try:
               with urllib.request.urlopen(req, timeout=60) as resp:
-                  xml = resp.read().decode("utf-8")
+                  feed_xml = resp.read().decode("utf-8")
           except Exception as e:
               print(f"source feed unreachable ({e}); keeping existing feed.xml")
               raise SystemExit(0)
 
-          if "<itunes:owner>" not in xml:
-              xml = xml.replace("<channel>", "<channel>" + OWNER, 1)
+          if "<itunes:owner>" not in feed_xml:
+              feed_xml = feed_xml.replace("<channel>", "<channel>" + OWNER, 1)
 
-          xml.dom.minidom.parseString(xml)  # validate before writing
+          minidom.parseString(feed_xml)  # validate before writing
 
           with open("feed.xml", "w", encoding="utf-8") as f:
-              f.write(xml)
-          print(f"wrote feed.xml ({len(xml)} bytes)")
+              f.write(feed_xml)
+          print(f"wrote feed.xml ({len(feed_xml)} bytes)")
           PYEOF
 
       - name: Commit if changed
